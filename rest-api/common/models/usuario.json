@@ -1,0 +1,74 @@
+{
+  "name": "usuario",
+  "plural": "usuarios",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "codigo": {
+      "type": "number",
+      "required": true
+    },
+    "fase": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "comparecimentoAula": {
+      "type": "hasAndBelongsToMany",
+      "model": "aulaData",
+      "foreignKey": ""
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {
+    "aulasFaltantes": {
+      "accepts": [
+        {
+          "arg": "alunoId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "returns": [
+        {
+          "arg": "aulasFaltantes",
+          "type": "array",
+          "root": true
+        }
+      ],
+      "description": "Retorna aulas do aluno que faltam fazer das fases anteriors",
+      "http": {
+        "verb": "GET"
+      }
+    }
+  }
+}
